@@ -3,6 +3,8 @@ _[ By sirkus7, https://github.com/sirkus7/rtl_433-graylog ]_
 
 This script provides a simple way to send results from `rtl_433` directly to a Graylog server with very little setup. Pipe results from `rtl_433` to `rtl_433-graylog.py` and it will format the results into a GELF message and fire them off to the Graylog server you specify. No need to set up extractors or set up other transport mechanisms. Quick and solid. 
 
+<img src="img/rtl_433-graylog.png" style="float:right" width="350" alt="Example Graylog Dashboard with rtl_433 results.">
+
 _Quick background:_ https://github.com/merbanan/rtl_433 is a generic data receiver that uses an SDR receiver to listen to a frequency (or several, if hopping frequencies), and attempts to identify and decode broadcast messages from various devices. Sending results to Graylog allows you to query/chart/analyze the results over time.
 
 ## Configure 
