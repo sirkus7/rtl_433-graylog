@@ -1,20 +1,19 @@
 #!/usr/bin/python3
 #
-# rtl_433-graylog.py - sirkus7
+# rtl_433-graylog.py - https://github.com/sirkus7/rtl_433-graylog
 # A simple way to send rtl_433 results directly to Graylog.
 # In Graylog, configure a UDP GELF input, note the port you choose.
 # Configure this script by setting the GL_SERVER to point to the Graylog
 # host and port.
 #
-# Example, basic use (using -M level with rtl_433 to include frequency info):
+# Example use, (-M level with rtl_433 to include frequency info):
 # $ rtl_433 -M level -F json | ./rtl_433-graylog.py
-# Example 2, also print messages to console (-v)
+# Example 2, set frequency, also print messages to console (-v)
 # $ rtl_433 -M level -f 315M -F json | ./rtl_433-graylog.py -v
 
 import sys
 import argparse
 import json
-import subprocess
 import socket
 
 # Configure to your Graylog server's UDP GELF input: ("hostname-or-IP-address", port)
@@ -32,8 +31,8 @@ def sendGelfMsg(params):
         sock.sendto(gelfmsg, GL_SERVER)
 
 # Setup and get arguments
-parser = argparse.ArgumentParser(description='Pipe rtl_433 results direct to a Graylog UDP GELF input.')
-parser.add_argument("-v", action='store_true', help="Verbose, print received messages as they're sent")
+parser = argparse.ArgumentParser(description='Pipe rtl_433 results directly to a Graylog UDP GELF input.')
+parser.add_argument("-v", action='store_true', help="Verbose, print GELF messages to console.")
 args = parser.parse_args()
 
 # Get hostname
