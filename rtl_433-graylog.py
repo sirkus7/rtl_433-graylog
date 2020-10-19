@@ -6,10 +6,10 @@
 # Configure this script by setting the GL_SERVER to point to the Graylog
 # host and port.
 #
-# Example, basic use:
-# $ rtl_433 -d 0 -F json | ./rtl_433-graylog.py
-# Example 2, also tag GELF messages with a "freq" field (-f) and print messages to console (-v)
-# $ rtl_433 -d 1 -f 315M -F json | ./rtl_433-graylog.py -f 315.000MHz -v
+# Example, basic use (using -M level with rtl_433 to include frequency info):
+# $ rtl_433 -M level -F json | ./rtl_433-graylog.py
+# Example 2, also print messages to console (-v)
+# $ rtl_433 -M level -f 315M -F json | ./rtl_433-graylog.py -v
 
 import sys
 import argparse
@@ -33,7 +33,6 @@ def sendGelfMsg(params):
 
 # Setup and get arguments
 parser = argparse.ArgumentParser(description='Pipe rtl_433 results direct to a Graylog UDP GELF input.')
-parser.add_argument("-f", metavar="FREQ_STRING", type=str, default=None, help="Frequency description, adds a 'freq' field to the GELF message with this value")
 parser.add_argument("-v", action='store_true', help="Verbose, print received messages as they're sent")
 args = parser.parse_args()
 
@@ -50,8 +49,6 @@ for line in sys.stdin:
             "host" : hostname,
             "_rtl_433" : "true"
         }
-        if args.f is not None: # If -f arg was used, add freq field with arg value
-            gdata['freq']=args.f 
 
         # Convert json data to GELF message
         msg="rtl: "

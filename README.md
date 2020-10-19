@@ -1,5 +1,5 @@
 # rtl_433-graylog.py
-[ By sirkus7, https://github.com/sirkus7/rtl_433-graylog ]
+_[ By sirkus7, https://github.com/sirkus7/rtl_433-graylog ]_
 
 This script takes output from `rtl_433` and formats it, then sends it directly to a Graylog server in GELF UDP format. This allows Graylog to consume all `rtl_433` results without having to rely on syslog or other transport mechanisms. 
 
@@ -19,15 +19,12 @@ Most basic use example:
 
 The above demonstrates the most basic use of `rtl_433-graylog.py`. Run rtl_433 with the "-F json" argument so that it formats all output as json, then pipe that to `rtl_433-graylog.py`.
 
-## Args
-Sometimes it's helpful to log the frequency that you targeted when you received these messages. Since  `rtl_433` doesn't include this data in the json output, you can use the `-f` argument with a desriptive string to have `rtl_433-graylog.py` to add this field. Whatever you give as the string will be the value of a new field "freq" in the Graylog entry. 
+Example 2, include additional metadata fields, like frequency, level info, protocol id; also using -v to print out the message on the console:
 
-Example, adding a "freq" field
-
-    $ rtl_433 -F json | ./rtl_433-graylog.py -f 433.920MHz
+    $ rtl_433 -M level -M protocol -F json | ./rtl_433-graylog.py -v
 
 Since, by default, `rtl_433` tunes into 433.920MHz, you could use the `-f 433.920MHz` argument to add the field "freq" to the Graylog entry, with the matching frequency value. Remember, this is a free form string, you can put any string in any format in it. Which means, you could also put the wrong frequency in there, in an it won't care. But whatever you add will be logged in Graylog as "freq" for that entry. 
 
-Example, tuning into 315MHz, and adding a matching `freq` field:
+Example 3, tuning into 315MHz, include meta data, verbose messages to console
 
-    $ rtl_433 -f 315M -F json | ./rtl_433-graylog.py -f 315.000MHz -v
+    $ rtl_433 -M level -M protocol -f 315M -F json | ./rtl_433-graylog.py -v
