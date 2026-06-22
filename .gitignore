@@ -1,0 +1,6 @@
+# Private config / secrets (see local.env.example)
+local.env
+
+# Python bytecode
+__pycache__/
+*.pyc

@@ -12,12 +12,16 @@
 # $ rtl_433 -M level -f 315M -F json | ./rtl_433-graylog.py -v
 
 import sys
+import os
 import argparse
 import json
 import socket
 
-# Configure to your Graylog server's UDP GELF input: ("hostname-or-IP-address", port)
-GL_SERVER=("graylog",12204)
+# Graylog UDP GELF input. Set GRAYLOG_HOST/GRAYLOG_PORT in your environment
+# (e.g. via local.env, see local.env.example) to point at your own server.
+# The defaults below are safe placeholders, not a real host.
+GL_SERVER=(os.environ.get("GRAYLOG_HOST","graylog"),
+           int(os.environ.get("GRAYLOG_PORT","12201")))
 
 # Send UDP Gelf Message, arg is a dict of params to values
 def sendGelfMsg(params):
@@ -65,5 +69,3 @@ for line in sys.stdin:
     except:
         print('Error: could not deserialize line into jason: ' + line)
     
-    
-
